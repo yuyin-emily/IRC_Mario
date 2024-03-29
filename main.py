@@ -21,10 +21,14 @@ running = True
 num=0
 
 brick = []
-for i in range(24): #24塊地板
+for i in range(24): 
     brick.append(bricks.bricks(i))
 chara = charas.charas() 
-    
+
+brick[5].show = False
+brick[10].show = False
+brick[15].show = False 
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -38,13 +42,20 @@ while running:
             brick[i].run(chara.speed)
     else:
         chara.run(keys)
+        
     chara.jumping()
+    
+    for i in range(24):
+        brick[i].drop(chara,chara.position)
+        
+    running=chara.down()
     
     for i in range(5):
         screen.blit(background,[i * 160,0])
         
     for i in range(24):
-        screen.blit(brick[i].img,brick[i].position)
+        if brick[i].show:
+            screen.blit(brick[i].img,brick[i].position)
 
     if chara.dirX == "right":
         screen.blit(chara.img[(num % 80) // 40],chara.position)

@@ -12,6 +12,7 @@ class charas():
         self.speed = 10 
         self.dirX = "right" 
         self.dirY = "None" 
+        self.life = True
     
     def run(self,keys):
         if keys[pygame.K_UP]:
@@ -37,3 +38,13 @@ class charas():
             self.position[1] -= self.speed * (1 + self.position[1] // 1000)
         elif self.dirY == "down":
             self.position[1] += self.speed * (1 + self.position[1] // 1000)
+            
+    def down(self):
+        if not self.life:
+            self.jump = False
+            if self.position[1] < 460: #角色尚未落地
+                self.position[1] += self.speed #增加下墜速度
+                return True
+            else:
+                return False
+        return True
