@@ -1,5 +1,6 @@
 import pygame
 
+
 class bricks():
     def __init__(self,i):
         self.img = pygame.image.load("./image/brick.png")
@@ -9,8 +10,15 @@ class bricks():
     def run(self,speed):
         self.position[0] -= speed 
         
-    def drop(self,chara,chara_position):
-        if not self.show and chara_position[1] >= 210 and chara_position[0] > self.position[0] and chara_position[0] < self.position[0] + self.img.get_size()[0] // 4: #條件1:blocks.show = True, 條件2:chara[y] >= 210, 條件3:chara[x]位於範圍內
+    def drop(self,chara):
+        if self.ischaradrop(chara):
             chara.life = False
+            
+    def ischaradrop(self,chara):
+        if not self.show:
+            if chara.position[1] >= 210:
+                    if abs(chara.position[0] + chara.img[0].get_size()[0] - self.position[0] - self.img.get_size()[0]) < 5:
+                        return True
+        return False
         
     

@@ -2,6 +2,7 @@ import pygame
 
 import bricks
 import charas
+import golds
 
 def isbricksrun(brick,keys,chara_position):
     if brick.position[0] >= 640 - brick.img.get_size()[0]:
@@ -23,6 +24,12 @@ num=0
 brick = []
 for i in range(24): 
     brick.append(bricks.bricks(i))
+    
+gold = []
+for i in range(10): #10個金幣
+        gold.append(golds.golds())
+        gold[i].setPosition(i)
+        
 chara = charas.charas() 
 
 brick[5].show = False
@@ -40,13 +47,15 @@ while running:
     if isbricksrun(brick[23],keys,chara.position[0]):
         for i in range(24):
             brick[i].run(chara.speed)
+        for i in range(10):
+            gold[i].run()
     else:
         chara.run(keys)
         
     chara.jumping()
     
     for i in range(24):
-        brick[i].drop(chara,chara.position)
+        brick[i].drop(chara)
         
     running=chara.down()
     
@@ -56,6 +65,11 @@ while running:
     for i in range(24):
         if brick[i].show:
             screen.blit(brick[i].img,brick[i].position)
+            
+    for i in range(10):
+        if gold[i].show:
+            gold[i].eat(chara.position)
+            screen.blit(gold[i].img[(num % 80) // 40], gold[i].position)
 
     if chara.dirX == "right":
         screen.blit(chara.img[(num % 80) // 40],chara.position)
